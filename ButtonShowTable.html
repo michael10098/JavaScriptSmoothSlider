@@ -2,23 +2,35 @@
 <script>
   $(document).ready(function() {
     // add a click method to any class with tc-facet-header
-    $(".tc-facet-header").on("click", function(e) {
+    $('.tc-facet-header').on("click", function(e) {
+      // get the classList of the button
+      classList = $(this)[0].firstElementChild.classList;
       // see if the item clicked is not displayed
       if($(this).next().css('display') === 'none')
-        // iterate through each element that is a class of table-div
-      	$('.table-div').each(function(index, element) {
+        // iterate through each element that is a class of tc-facet-header
+      	$('.tc-facet-header').each(function(index, element) {
+          tableItem = $(element).next()[0];
           // see if this element is displayed
-          if($(element).css('display') !== 'none')
+          if($(tableItem).css('display') !== 'none') {
             // hide the element
-            $(element).css('display', 'none');
+            $(tableItem).css('display', 'none');
+            classListItem = $(element)[0].firstElementChild.classList;
+            classListItem.remove('button-active');
+            classListItem.add('button-format');
+          }
         });
       // see if the item clicked is not displayed
-      if($(this).next().css('display') === 'none')
+      if($(this).next().css('display') === 'none') {
         // show the element
       	$(this).next().css('display', 'block');
-      else
+        classList.remove('button-format');
+        classList.add('button-active');
+      } else {
         // hide the element
       	$(this).next().css('display', 'none');
+        classList.remove('button-active');
+        classList.add('button-format');
+      }
     });
   });
 </script>
@@ -77,6 +89,29 @@
   }
 
   .button-format {
+    background-color: #808080;
+    border: none;
+    color: white;
+    padding: 6px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  
+  .button-active {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 6px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
   }
 
   .table-div {
@@ -89,13 +124,14 @@
   .table-top {
     text-align: center;
     background-color: #d4b4dc;
-    border: solid 1x #c3c3c3;
+    border: solid 1px #000000;
+    margin-bottom: 0;
   }
 </style>
 
 <body>
   <span class="tc-facet-header">
-  <button class="button-format" class="dropbtn">Table 1</button>
+    <button class="button-format" class="dropbtn">Table 1</button>
   </span>
   <div class="table-div">
     <h3 class="table-top">TABLE 1</h3>
@@ -152,7 +188,7 @@
     </Table>
   </div>
   <span class="tc-facet-header">
-  <button class="button-format" class="dropbtn">Table 2</button>
+    <button class="button-format" class="dropbtn">Table 2</button>
   </span>
   <div class="table-div">
     <h3 class="table-top">TABLE 2</h3>
@@ -251,7 +287,7 @@
     </Table>
   </div>
   <span class="tc-facet-header">
-  <button class="button-format" class="dropbtn">Table 3</button>
+    <button class="button-format" class="dropbtn">Table 3</button>
   </span>
   <div class="table-div">
     <h3 class="table-top">TABLE 3</h3>
@@ -301,7 +337,7 @@
     </Table>
   </div>
   <span class="tc-facet-header">
-  <button class="button-format" class="dropbtn">Table 4</button>
+    <button class="button-format" class="dropbtn">Table 4</button>
   </span>
   <div class="table-div">
     <h3 class="table-top">TABLE 4</h3>
@@ -344,7 +380,7 @@
     </Table>
   </div>
   <span class="tc-facet-header">
-  <button class="button-format" class="dropbtn">Table 5</button>
+    <button class="button-format" class="dropbtn">Table 5</button>
   </span>
   <div class="table-div">
     <h3 class="table-top">TABLE 5</h3>
@@ -380,7 +416,7 @@
     </Table>
   </div>
   <span class="tc-facet-header">
-  <button class="button-format" class="dropbtn">Table 6</button>
+    <button class="button-format" class="dropbtn">Table 6</button>
   </span>
   <div class="table-div">
     <h3 class="table-top">TABLE 6</h3>
@@ -409,7 +445,7 @@
     </Table>
   </div>
   <span class="tc-facet-header">
-  <button class="button-format" class="dropbtn">Table 7</button>
+    <button class="button-format" class="dropbtn">Table 7</button>
   </span>
   <div class="table-div">
     <h3 class="table-top">TABLE 7</h3>
