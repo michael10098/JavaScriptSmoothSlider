@@ -1,8 +1,42 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
   $(document).ready(function() {
+    // Define the function to reposition elements
+    function repositionElements() {
+      lastE = $('.tc-facet-header').last()[0];
+      // this is used to position the table below the last button
+      offsetFromTop = lastE.offsetTop + lastE.offsetHeight;
+	  console.log("offset = " + offsetFromTop);
+      // iterate through each element that is a class of tc-facet-header
+      $('.tc-facet-header').each(function(index, element) {
+        tableItem = $(element).next()[0];
+        // see if this element is displayed
+        if($(tableItem).css('display') !== 'none')
+          // reposition this element since it is visible
+          $(tableItem).css('top', offsetFromTop + 'px');
+      });
+    }
+
+    // Use a debounce function to limit how often repositionElements() is called
+    const debounce = (func, delay) => {
+      let timeoutId;
+      return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+      };
+    };
+
+    // Attach the debounced function to the window's resize event
+    $(window).on('resize', debounce(repositionElements, 200));
+
+    // Run the repositioning once on page load
+    repositionElements();
+
     // add a click method to any class with tc-facet-header
     $('.tc-facet-header').on("click", function(e) {
+      lastE = $('.tc-facet-header').last()[0];
+      // this is used to position the table below the last button
+      offsetFromTop = lastE.offsetTop + lastE.offsetHeight;
       // get the classList of the button
       classList = $(this)[0].firstElementChild.classList;
       // see if the item clicked is not displayed
@@ -25,6 +59,8 @@
       	$(this).next().css('display', 'block');
         classList.remove('button-format');
         classList.add('button-active');
+        // reposition the element
+        repositionElements();
       } else {
         // hide the element
       	$(this).next().css('display', 'none');
